@@ -63,7 +63,7 @@ if notDefined('newWave')
     end
 end
 
-waveSpectrum.wave = newWave;
+wave = newWave;
 
 if min(newWave) < min(curWave) ||  max(newWave) > max(curWave)
     error('Wavelength extrapolation not allowed.  Only interpolation');
@@ -81,7 +81,7 @@ if ~isempty(il)
 end
 
 % Clear the current data before replacing.  This saves memory.
-scene = sceneSet(scene, 'spectrum', waveSpectrum);
+scene.wave = wave;
 scene = sceneClearData(scene);
 
 %% Interpolate the photons to the new wavelength sampling
@@ -102,21 +102,21 @@ if ~isempty(photons)
     else
         % Big data set condition, so we loop down the rows
         if ieSessionGet('gpu compute')
-            newPhotons = zeros(r,c,length(waveSpectrum.wave), 'gpuArray');
+            newPhotons = zeros(r,c,length(wave), 'gpuArray');
         else
-            newPhotons = zeros(r,c,length(waveSpectrum.wave));
+            newPhotons = zeros(r,c,length(wave));
         end
         for rr=1:r
             % Get a row
             pRow = squeeze(photons(rr,:,:))';
             % Interpolate all the columns in that row and put it in place
-            newPhotons(rr,:,:) = interp1(curWave(:),pRow,...
-                waveSpectrum.wave(:), 'linear')';
+            newPhotons(rr,:,:) = interp1(curWave(:),pRow, ...
+                                         wave(:), 'linear')';
         end
     end
     
-    if showBar, waitbar(0.7,h,'Compressing and storing'); end
-    scene = sceneSet(scene,'compressed photons',newPhotons);
+    if showBar, waitbar(0.7,h,'Storing'); end
+    scene = sceneSet(scene, 'photons', newPhotons);
     
     % Calculate and store the scene luminance
     % scene = sceneSet(scene,'luminance',sceneCalculateLuminance(scene));
@@ -131,8 +131,10 @@ if ~isempty(il)
     newIlluminant = interp1(curWave,illuminantPhotons, newWave, 'linear');
     
     % Update the scene and illuminant spectrum.
-    scene = sceneSet(scene, 'spectrum', waveSpectrum);
-    scene = sceneSet(scene, 'illuminant spectrum',waveSpectrum);
+    scene.wave = wave;
+    il = sceneGet(scene, 'illuminant');
+    il = illuminantSet(il, 'wave', wave);
+    scene = sceneSet(scene, 'illuminant', il);
     
     % Put in the new illuminant photons
     scene = sceneSet(scene,'illuminant photons',newIlluminant);

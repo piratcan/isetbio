@@ -98,10 +98,10 @@ function ValidationFunction(runTimeParams)
 
     %% Macbeth
     patchSizePixels = 16;
-    spectrum.wave = 380:5:720;
-    scene = sceneCreate('macbeth tungsten',patchSizePixels,spectrum);
+    wave = 380:5:720;
+    scene = sceneCreate('macbeth tungsten',patchSizePixels,wave);
     scene.data;
-    scene = sceneCreate('macbeth tungsten',patchSizePixels,spectrum,'bitdepth',32);
+    scene = sceneCreate('macbeth tungsten',patchSizePixels,wave,'bitdepth',32);
     scene.data;
     if (runTimeParams.generatePlots)
         vcAddAndSelectObject(scene); sceneWindow;

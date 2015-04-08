@@ -38,7 +38,6 @@ function optics = opticsSet(optics,parm,val,varargin)
 %      {'transmittance'} - Wavelength transmittance  ([0,1])
 %
 % Wavelength information
-%      {'spectrum'}  - Wavelength information structure
 %        {'wave'}   - Wavelength samples
 %
 % OTF Information for shift-invariant optics model
@@ -122,24 +121,23 @@ switch parm
     case {'focallength','flength'}
         optics.focalLength = val;
         
-    case {'spectrum'}
-        % Spectrum structure
-        optics.spectrum = val;
     case {'wavelength', 'wave'}
         % Change wavelength sampling
         val = val(:); % a column vector
         % Interpolate OTF data if it is there
-        otf = opticsGet(optics, 'otf data');
-        if ~isempty(otf)
-            [otf, r, c] = RGB2XWFormat(otf);
-            otf = interp1(optics.OTF.wave, otf', val(:));
-            otf = XW2RGBFormat(otf', r, c);
-            optics = opticsSet(optics, 'otf data', otf);
+        if checkfields(optics, 'OTF', 'OTF')
+            otf = optics.OTF.OTF;
+            if ~isequal(optics.OTF.wave(:), val(:))
+                [otf, r, c] = RGB2XWFormat(otf);
+                otf = interp1(optics.OTF.wave, otf', val(:), 'linear', 0);
+                otf = XW2RGBFormat(otf', r, c);
+                optics = opticsSet(optics, 'otf data', otf);
+            end
             optics.OTF.wave = val;
         end
         
         % Set new wavelength 
-        optics.spectrum.wave = val;
+        optics.wave = val;
         
     case {'transmittance','opticaltransmittance'}
         if max(val)>1 || min(val)<0

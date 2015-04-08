@@ -16,7 +16,7 @@ vcReplaceObject(scene);
 % sceneWindow;
 
 oi = oiCreate;
-oi = oiSet(oi,'spectrum',sceneGet(scene,'spectrum'));
+oi = oiSet(oi,'wave', sceneGet(scene,'wave'));
 optics = opticsCreate('human');  % Set up for human optics
 oi = oiSet(oi,'optics',optics);
 oi = oiCompute(scene,oi);

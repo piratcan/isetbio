@@ -56,10 +56,10 @@ switch param
         % Need to interpolate data sets and reset when wave is adjusted.
         oldW = illuminantGet(il,'wave');
         newW = val(:);
-        il.spectrum.wave = newW;
+        il.wave = newW;
 
         % Now decide what to do with photons
-        p = illuminantGet(il,'photons');
+        p = illuminantGet(il, 'photons');
         if ~isempty(p)
             % If p has the same length as newW, let's assume it was already
             % changed.  Otherwise, if it has the length of oldW, we should

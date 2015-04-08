@@ -674,8 +674,8 @@ return;
 function menuSceneMacbethVisIR_Callback(hObject, eventdata, handles)
 % Scene | Macbeth Charts | Visible-InfraRed
 
-spectrum.wave = ieReadNumber('Enter waves','380:4:1068','%.0f');
-scene =  sceneCreate('macbethEE_IR',[],spectrum);
+wave = ieReadNumber('Enter waves','380:4:1068','%.0f');
+scene =  sceneCreate('macbethEE_IR',[],wave);
 vcAddAndSelectObject('SCENE',scene);
 sceneRefresh(hObject, eventdata, handles);
 

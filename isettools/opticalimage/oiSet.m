@@ -61,8 +61,7 @@ function oi = oiSet(oi,parm,val,varargin)
 %                         time: oi = oiSet(oi,'cphotons',data,wavelength);
 %
 % Wavelength information
-%      {'spectrum'}            - Spectrum structure
-%        {'wavelength'}        - Wavelength samples
+%      {'wave', 'wavelength'}        - Wavelength samples
 %
 % Optics
 %      {'optics'}  - Main optics structure
@@ -228,15 +227,6 @@ switch parm
     case {'meanillum', 'meanilluminance'}
         oi.data.meanIll = val;
 
-    case {'spectrum','wavespectrum','wavelengthspectrumstructure'}
-        % Set spectrum structure
-        if ~isfield(val, 'wave'), error('Invalid spectrum structure'); end
-        % adjust wavelength sampling
-        if isfield(oi, 'spectrum')
-            oi = oiSet(oi, 'wave', val.wave);
-        else
-            oi.spectrum = val;
-        end
     case {'wave','wavelength','wavelengthnanometers'}
         % Set sampling wavelength
         val = val(:); % column vector
@@ -254,7 +244,7 @@ switch parm
         oi = oiSet(oi, 'optics wave', val);
         
         % Set new wavelegnth samples
-        oi.spectrum.wave = val;
+        oi.wave = val;
 
         % Optical methods
     case {'opticsmodel'}

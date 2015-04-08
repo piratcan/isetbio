@@ -27,10 +27,7 @@ function pixel = pixelCreate(pixelType,wave,pixelSizeM)
 % Copyright ImagEval Consultants, LLC, 2003.
 
 if notDefined('pixelType'), pixelType = 'default'; end
-if notDefined('wave')
-    wave = 400:10:700; 
-    wave = wave(:); 
-end
+if notDefined('wave'), wave = (400:10:700)'; end
 if notDefined('pixelSizeM'), pixelSizeM = 2.8e-6; end
 
 pixelType = ieParamFormat(pixelType);
@@ -63,11 +60,11 @@ switch lower(pixelType)
 end
 
 % Initialize with flat photodetector spectral QE
-pixel = pixelSet(pixel,'wave',wave);
+pixel.wave = wave;
 pixel = pixelSet(pixel,'pd Spectral QE',ones(size(wave)));
 % pixel = pixelSet(pixel,'size constant fill factor',pixelSizeM);
 
-return;
+return
 
 %----------------------------------------------
 function pixel = pixelAPSInit()
@@ -124,7 +121,7 @@ pixel = pixelSet(pixel,'refractiveindices',[1 2 1.46 3.5]);  %
 % Peter C thinks they are around 9, but Micron is shorter.
 pixel = pixelSet(pixel,'layerthickness',[2 5]*10^-6);  % In microns.  Air and material are infinite.
 
-return;
+return
 
 %----------------------------------------------
 function pixel = pixelHuman
@@ -167,7 +164,7 @@ pixel = pixelSet(pixel,'refractiveindices',[1 2 1.46 3.5]);  %
 % These thicknesses makes the pixel 5 microns high.
 pixel = pixelSet(pixel,'layerthickness',[0.5 4.5]*10^-6);  % In microns
 
-return;
+return
 
 %----------------------------------------------
 function pixel = pixelMouse
@@ -218,7 +215,4 @@ pixel = pixelSet(pixel,'darkVoltage',0); % no dark noise
 % 1 millivolt against 1 V total swing.  not much
 pixel = pixelSet(pixel,'readNoiseVolts',0); % no read noise
 
-% We need to set the color filter elsewhere.
-
-return;
-
+return

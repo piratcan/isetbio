@@ -151,10 +151,8 @@ switch lower(imType)
         % vcNewGraphWin; imageSPD(photons,basis.wave);
         
         % Override the default spectrum with the basis function
-        % wavelength sampling.  We don't call sceneSet because that both
-        % sets the wavelength and interpolates the data.
-        % scene.spectrum.wave = basis.wave(:);
-        scene = sceneSet(scene,'wave',basis.wave);
+        % wavelength sampling
+        scene = sceneSet(scene, 'wave', basis.wave(:));
         
         % Set the illuminant structure
         

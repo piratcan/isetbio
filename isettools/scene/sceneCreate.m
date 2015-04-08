@@ -38,8 +38,8 @@ function [scene,parms] = sceneCreate(sceneName,varargin)
 %    scene = sceneCreate('macbeth',32);
 %
 %    patchSize = 8;
-%    spectrum.wave = (380:4:1068)';
-%    scene = sceneCreate('macbethEE_IR',patchSize,spectrum);
+%    wave = (380:4:1068)';
+%    scene = sceneCreate('macbethEE_IR',patchSize,wave);
 %
 %      {'macbethd65'}  - Create a Macbeth D65 image.  Optional
 %         parameter of patch size (default = 16 pixels).
@@ -56,8 +56,8 @@ function [scene,parms] = sceneCreate(sceneName,varargin)
 %   parameters. They can be set using the calling procedure
 %
 %         patchSizePixels = 16;
-%         spectrum.wave = [380:5:720];
-%         scene = sceneCreate('macbethTungsten',patchSizePixels,spectrum);
+%         wave = (380:5:720)';
+%         scene = sceneCreate('macbethTungsten',patchSizePixels,wave);
 %
 %     {L*-steps} - Vertical bars spaced in equal L* steps (dark -> light)
 %     scene = sceneCreate('LSteps',barWidth=20,nBars=10,deltaE=10);
@@ -180,7 +180,7 @@ switch sceneName
     case 'default'
         % The user can make a Macbeth with different patch sizes and
         % wavelength sampling, by calling with additional arguments, such
-        % as scene = sceneCreate('macbethd65',16,spectrum);
+        % as scene = sceneCreate('macbethd65', 16, wave);
         scene = sceneDefault(scene,'d65');
     case {'macbeth','macbethd65'}
         % sceneCreate('macbethD65',24);
@@ -196,10 +196,9 @@ switch sceneName
     case {'macbethee_ir','macbethequalenergyinfrared'}
         % Equal energy illumination into the IR
         % The way to call this would be
-        % patchSize = 16;
-        % spectrum.wave = 380:4:1068;
-        % scene = sceneCreate('macbethEE_IR',patchSize,spectrum)
-        scene = sceneDefault(scene,'ir',varargin);
+        % patchSize = 16; wave = (380:4:1068)';
+        % scene = sceneCreate('macbethEE_IR', patchSize, wave);
+        scene = sceneDefault(scene, 'ir', varargin);
     case {'reflectancechart'}
         % sceneCreate('reflectance chart',pSize,sSamples,sFiles);
         % There is always a gray strip at the right.
@@ -568,7 +567,7 @@ end
 
 
 %----------------------------------
-function scene = sceneDefault(scene,illuminantType,args)
+function scene = sceneDefault(scene, illuminantType, args)
 %% Default scene is a Macbeth chart with D65 illuminant and patchSize 16
 % pixels.
 
@@ -580,10 +579,10 @@ else patchSize = args{1};
 end
 
 % Create the scene variable
-scene = sceneSet(scene,'type','scene');
+scene = sceneSet(scene, 'type', 'scene');
 if isempty(args) || length(args) < 2 || isempty(args{2})
     scene = initDefaultSpectrum(scene,'hyperspectral');
-else    scene = sceneSet(scene,'spectrum',args{2});
+else    scene = sceneSet(scene, 'wave', args{2});
 end
 wave = sceneGet(scene,'wave');
 
@@ -617,12 +616,10 @@ scene = sceneSet(scene,'distance',1.2);
 % Optical images have other magnifications that depend on the optics.
 scene = sceneSet(scene,'magnification',1.0);
 
-% The default patch size is 16x16.
-spectrum = sceneGet(scene,'spectrum');
-surface = macbethChartCreate(patchSize,(1:24),spectrum);
+% The default patch size is 16x16
+surface = macbethChartCreate(patchSize,(1:24), sceneGet(scene, 'wave'));
 
-% scene = sceneCreateMacbeth(macbethChartObject,lightSource,scene);
-iPhotons = illuminantGet(lightSource,'photons');
+iPhotons = illuminantGet(lightSource, 'photons');
 [surface,r,c] = RGB2XWFormat(surface.data);
 sPhotons = surface*diag(iPhotons);
 sPhotons = XW2RGBFormat(sPhotons,r,c);
@@ -686,7 +683,7 @@ if notDefined('sz'),      sz = 256; end
 
 scene = sceneSet(scene,'name','mackay');
 
-if ~isfield(scene,'spectrum')
+if ~isfield(scene,'wave')
     scene = initDefaultSpectrum(scene,'hyperspectral');
 end
 nWave = sceneGet(scene,'nwave');
@@ -842,7 +839,7 @@ sz = sz(:)'; % make sure sz is a row vector
 scene = sceneSet(scene,'name',sprintf('uniform-%s',spectralType));
 
 if isempty(varargin)
-    if ~isfield(scene,'spectrum')
+    if ~isfield(scene, 'wave')
         scene = initDefaultSpectrum(scene,'hyperspectral');
     end
 end
@@ -887,7 +884,7 @@ if notDefined('offset'), offset = 0; end
 
 scene = sceneSet(scene,'name',sprintf('line-%s',spectralType));
 
-if ~isfield(scene,'spectrum')
+if ~isfield(scene, 'wave')
     scene = initDefaultSpectrum(scene,'hyperspectral');
 end
 wave    = sceneGet(scene,'wave');
@@ -937,7 +934,7 @@ if notDefined('width'), width = 5; end
 
 scene = sceneSet(scene,'name',sprintf('bar-%d',width));
 
-if ~isfield(scene,'spectrum')
+if ~isfield(scene,'wave')
     scene = initDefaultSpectrum(scene,'hyperspectral');
 end
 wave    = sceneGet(scene,'wave');
@@ -1039,7 +1036,7 @@ switch type
         
         %% Init spectrum
         
-        if ~isfield(scene,'spectrum')
+        if ~isfield(scene, 'wave')
             scene = initDefaultSpectrum(scene,'hyperspectral');
         end
         wave    = sceneGet(scene,'wave');

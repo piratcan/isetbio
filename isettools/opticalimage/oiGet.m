@@ -72,7 +72,6 @@ function val = oiGet(oi,parm,varargin)
 %        {'xyz'}                - (row,col,3) image of the irradiance XYZ values
 %
 % Wavelength information
-%      {'spectrum'}     - Wavelength information structure
 %        {'binwidth'}   - spacing between samples
 %        {'wave'}       - wavelength samples (nm)
 %        {'nwave'}      - number of wavelength samples
@@ -419,9 +418,7 @@ switch parm
         val     = ieXYZFromEnergy(Quanta2Energy(wave,photons),wave);
         %         sz = oiGet(oi,'size');
         %         val = XW2RGBFormat(val,sz(1),sz(2));
-         
-    case {'spectrum','wavespectrum'}
-        if isfield(oi,'spectrum'), val = oi.spectrum; end
+        
     case 'binwidth'     
         wave = oiGet(oi,'wave');
         if length(wave) > 1, val = wave(2) - wave(1);
@@ -429,18 +426,13 @@ switch parm
         end
     case {'wave', 'wavelength'}
         % oiGet(oi,'wave')
-        % There is a problem that the oi spectrum might differ from the
-        % optics spectrum.  There should only be one, and it should
-        % probably be part of the optics.  To smooth the transition to that
-        % wonderful day, I returning the optics spectrum if there is no oi
-        % spectrum.
-        % Always a column vector, even if people stick it in the wrong way.
-        if isfield(oi,'spectrum'), 
-            val = oi.spectrum.wave(:); 
-        elseif checkfields(oi,'optics','spectrum'), 
-            val = oi.optics.spectrum.wave(:);
-        elseif checkfields(oi,'optics','rayTrace','psf','wavelength')
-            val = oi.optics.rayTrace.psf.wavelength(:);
+        % Always return a column vector
+        if isfield(oi, 'wave'), 
+            val = oi.wave(:); 
+        elseif checkfields(oi,'optics','wave'), 
+            val = oi.optics.wave(:);
+        elseif checkfields(oi,'optics','OTF','wave')
+            val = oi.optics.OTF.wave(:);
         end
     case {'nwave','nwaves'}
         % oiGet(oi,'n wave')

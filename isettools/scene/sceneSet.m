@@ -58,7 +58,6 @@ function scene = sceneSet(scene,parm,val,varargin)
 %      synthetic scenes.  (See scene3D pdcproject directory).
 %
 % Scene color information
-%      {'spectrum'}   - structure that contains wavelength information
 %        {'wavelength'} - Wavelength sample values (nm)
 %
 % Illuminant
@@ -245,24 +244,22 @@ switch parm
         % have this set by a sceneAdjustLuminance() call.
         scene = sceneAdjustLuminance(scene,val);
         scene.data.meanL = val;
-        % Get this working
-    case {'spectrum','wavespectrum','wavelengthspectrumstructure'}
-        scene.spectrum  = val;
-        %     case {'binwidth','wavelengthspacing'}
-        %         scene.spectrum.binwidth = val;
+
     case {'wave','wavelength','wavelengthnanometers'}
         % scene = sceneSet(scene,'wave',wave);
         % If there are data, we interpolate the data as well as setting the
         % wavelength.
         % If there are no data, we just set the wavelength.
+        val = val(:);
 
         if ~checkfields(scene,'data','photons') || isempty(scene.data.photons)
             % No data, so just set the spectrum
-            scene.spectrum.wave = val;
+            scene.wave = val;
         else
             % Because there are data present, we must interpolate the
-            % photon data
-            scene = sceneInterpolateW(scene,val);
+            % photon data. Illuminant sampling wavelength also get handled
+            % here
+            scene = sceneInterpolateW(scene, val);
         end
         
         % Scene illumination information
@@ -305,8 +302,6 @@ switch parm
         error('Call scene set wave, not illuminant wave');
     case {'illuminantcomment'}
         scene.illuminant.comment = val;
-    case {'illuminantspectrum'}
-        scene.illuminant.spectrum = val;
         
     otherwise
         disp(['Unknown sceneSet parameter: ',parm]);

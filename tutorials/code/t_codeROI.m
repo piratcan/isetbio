@@ -16,12 +16,11 @@ else
 end
 
 %% Initialize
-s_initISET
+ieInit;
 
 %% Build a test scene
 scene = sceneCreate;
-vcAddAndSelectObject(scene);
-sceneWindow;
+vcAddAndSelectObject(scene); sceneWindow;
 
 %% Select a region using the mouse
 %
@@ -53,7 +52,7 @@ vcNewGraphWin; imageSPD(spd,sceneGet(scene,'wave'));
 
 %% The same method can be used with an OI
 oi = oiCreate;
-oi = oiCompute(oi,scene);
+oi = oiCompute(oi, scene);
 vcAddAndSelectObject(oi); oiWindow;
 if (interactiveUserInputIsON)
     [roiLocs,rect] = vcROISelect(oi);

@@ -112,7 +112,6 @@ function val = opticsGet(optics,parm,varargin)
 %      {'maxincoherentcutoffspatialfrequency'}* - Largest incoherent cutoff
 %
 % Wavlength information
-%      {'spectrum'}         - wavelength information
 %        {'wavelength'}     - wavelength samples
 %        {'nwave'}          - number of wavelength samples
 %        {'binwidth'}       - spacing between the samples
@@ -370,24 +369,24 @@ switch parm
         % nanometers is default
         % opticsGet(optics,'wavelength',unit)
         %
-        if checkfields(optics, 'spectrum', 'wave')
-            val = optics.spectrum.wave;
+        if isfield(optics, 'wave')
+            val = optics.wave;
         end
         if isempty(val)
             scene = vcGetObject('scene'); val = sceneGet(scene, 'wave');
         end
-        if isempty(val), val = 400:10:700; val = val(:); end
+        if isempty(val), val = (400:10:700)'; end
         
         if ~isempty(varargin)
             s = ieUnitScaleFactor(varargin{1})/ieUnitScaleFactor('nm');
             val = val * s;
         end
     case {'nwave','numberofwavelengthsamples'}
-        if checkfields(optics,'spectrum','wave'), val = length(optics.spectrum.wave);
-        end
+        % opticsGet(optics, 'n wave');
+        if isfield(optics,'wave'), val = length(optics.wave); end
     case {'binwidth','wavelengthbinwidth'}
         % Nanometers
-        wave = opticsGet(optics,'wave');
+        wave = opticsGet(optics, 'wave');
         if length(wave) > 1, val = wave(2) - wave(1);
         else val = 1;
         end
@@ -471,7 +470,7 @@ switch parm
         %    mesh(abs(fft2(opticsGet(optics,'otfdata',450))))
         %
         % We are having some issues on this point for shift-invariant and
-        % diffraction limited models.  Apparently there is a problem with
+        % diffraction limited models. Apparently there is a problem with
         % fftshift???
        
         opticsModel = opticsGet(optics,'model');

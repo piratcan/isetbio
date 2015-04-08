@@ -13,33 +13,31 @@
 % Copyright ImagEval Consultants, LLC, 2010.
 
 %%
-s_initISET
+ieInit;
 
 %% Create a scene
 %  
 % sceneCreate is a function that creates a scene
 % If there are no arguments, sceneCreate will simulate a Macbeth
 % ColorChecker uniformly illuminated with daylight (D65)
-
 scene = sceneCreate;
 
 % Have a look at the image
 vcAddAndSelectObject(scene); sceneWindow;
 
 % Plot the illuminant
-plotScene(scene,'illuminant photons roi')
+plotScene(scene, 'illuminant photons roi')
 
 
 %% Replace the current scene illuminant with Tungsten
-
 % Read illuminant energy.
 wave  = sceneGet(scene,'wave');
 TungstenEnergy = ieReadSpectra('Tungsten.mat',wave);
 
 % Adjust function.  In this case TungstenEnergy is a vector of illuminant
 % energies at each wavelength.
-scene = sceneAdjustIlluminant(scene,TungstenEnergy);
-scene = sceneSet(scene,'illuminantComment','Tungsten illuminant');
+scene = sceneAdjustIlluminant(scene, TungstenEnergy);
+scene = sceneSet(scene, 'illuminantComment', 'Tungsten illuminant');
 
 % Have a look
 vcAddAndSelectObject(scene); sceneWindow;
@@ -49,7 +47,7 @@ plotScene(scene,'illuminant photons roi')
 %
 %  see s_sceneFromMultispectral.m
 sceneFile = fullfile(isetRootPath,'data','images','multispectral','StuffedAnimals_tungsten-hdrs.mat');
-scene = sceneFromFile(sceneFile,'multispectral');
+scene = sceneFromFile(sceneFile, 'multispectral');
 scene = sceneAdjustLuminance(scene,61); % This sets the mean scene luminance
 scene = sceneSet(scene,'fov',26.5); % match the scene field of view (fov) with the sensor fov
 

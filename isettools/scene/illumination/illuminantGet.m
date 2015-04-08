@@ -124,18 +124,16 @@ switch param
         % illuminantGet(il,'wave');
         % illuminantGet(il,'wave',scene);
         %
-        % If an illuminant, it has its own spectrum.
+        % If an illuminant, it has its own spectrum
         % If it is part of a scene, it may not have a spectrum and so we
-        % use the scene spectrum, I guess.
-        if isfield(il,'spectrum'), val = il.spectrum.wave;
-        elseif ~isempty(varargin), val = sceneGet(varargin{1},'wave');
+        % use the scene spectrum
+        if isfield(il,'wave'), val = il.wave(:);
+        elseif ~isempty(varargin), val = sceneGet(varargin{1}, 'wave');
         end
-        if isvector(val), val = val(:); end
         
     case 'nwave'
         % nWave = illuminantGet(il,'n wave');
         % Number of wavelength samples
-        
         val = length(illuminantGet(il,'wave'));
         
     case 'luminance'
@@ -156,13 +154,13 @@ switch param
         % illuminantGet(il,'illuminant format') Returns: spectral, spatial
         % spectral, or empty. In more recent Matlab versions, we can use
         % isvector, ismatrix functions.
-        sz = illuminantGet(il,'spatial size');
+        sz = illuminantGet(il, 'spatial size');
         if length(sz) < 3
-            if prod(sz) == illuminantGet(il,'nwave');
+            if prod(sz) == illuminantGet(il, 'nwave');
                 val = 'spectral';
             end
         else
-            if sz(3) == illuminantGet(il,'nwave')
+            if sz(3) == illuminantGet(il, 'nwave')
                 val = 'spatial spectral';
             end
         end

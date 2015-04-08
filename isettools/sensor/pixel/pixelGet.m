@@ -191,17 +191,17 @@ switch param
     case {'readnoisemillivolts'}
         val = pixel.readNoise*10^3;
         
-    case {'spectrum','pixelspectrum'}
-        val = pixel.spectrum;
-    case {'wave','wavelength','wavelengthsamples'}         %nm
-        val = pixel.spectrum.wave(:);
+    case {'wave','wavelength','wavelengthsamples'} 
+        % pixelGet(pixel, 'wave')
+        % wavelength samples in nm
+        if isfield(pixel, 'wave'), val = pixel.wave(:); end
     case {'binwidth','wavelengthresolution'}     %nm
-        wave = pixelGet(pixel,'wave');
+        wave = pixelGet(pixel, 'wave');
         if length(wave) > 1, val = wave(2) - wave(1);
         else val = 1;
         end
     case {'nwave','nwaves','numberofwavelengthsamples'}
-        val = length(pixel.spectrum.wave);
+        if isfield(pixel, 'wave'), val = length(pixel.wave); end
         
     case {'spectralqe','pdspectralqe','qe','pixelspectralqe'}
         val = pixel.spectralQE(:);

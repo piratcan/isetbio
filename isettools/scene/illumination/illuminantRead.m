@@ -33,12 +33,14 @@ function spectralRadiance = illuminantRead(illP,lightName)
 %   illuminantRead([],'d65')
 %   illSPD = illuminantRead([],'tungsten'); plot(400:10:700,illSPD)
 %
-%   illP.name = 'd65';illP.spectrum.wave = 400:10:700;illP.luminance = 100;
+%   illP.name = 'd65';
+%   illP.wave = 400:10:700;
+%   illP.luminance = 100;
 %   plot(illuminantRead(illP));
 %
 %   illP.name = 'blackbody';
 %   illP.temperature = 3000;
-%   illP.spectrum.wave = 400:10:700;
+%   illP.wave = 400:10:700;
 %   illP.luminance = 100;
 %   sr = illuminantRead(illP);
 %
@@ -55,7 +57,7 @@ if notDefined('illP')
 else
     name      = illP.name;
     luminance = illP.luminance; 
-    wave      = illP.spectrum.wave;
+    wave      = illP.wave;
 end
 
 name = ieParamFormat(name);

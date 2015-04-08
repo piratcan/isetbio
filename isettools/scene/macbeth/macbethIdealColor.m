@@ -29,7 +29,7 @@ function target  = macbethIdealColor(illuminant,colorSpace)
 %
 %   lightParameters.name = 'blackbody';
 %   lightParameters.temperature = 6000;
-%   lightParameters.spectrum.wave = 400:10:700;
+%   lightParameters.wave = 400:10:700;
 %   lightParameters.luminance = 100;
 %   lRGB = macbethIdealColor(lightParameters,'lrgb');
 %
@@ -45,8 +45,8 @@ function target  = macbethIdealColor(illuminant,colorSpace)
 
 if notDefined('illuminant'), illuminant = 'D65'; end
 if notDefined('colorSpace'), colorSpace = 'XYZ'; end
-if checkfields(illuminant,'spectrum','wave')
-    wave = illuminant.spectrum.wave;
+if isfield(illuminant, 'wave')
+    wave = illuminant.wave;
 else
     wave = (400:10:700)';
 end

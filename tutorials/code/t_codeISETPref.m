@@ -2,19 +2,16 @@
 %
 % ISETBIO preferences
 %   
-% Matlab preserves information for you in environmental preference variables.
-% ISETBIO uses these variables to remember certain preferences.  These
-% preferences are accessed using the ieSessionGet and ieSessionSet
+% Matlab preserves information for you in environmental preference
+% variables. ISETBIO uses these variables to remember certain preferences.
+% These preferences are accessed using the ieSessionGet and ieSessionSet
 % functions.
-%
-% NOTES:
-%   1) Currently broken because it calls a script that no longer exists.
 %
 % Copyright ImagEval Consultants, LLC, 2013
 
 %% Check your stored ISET preferences
-
 % At present, there are only a small number of stored preferences.  
+ieInit;
 
 % Please use the ieSessionGet/Set functions to read and set the
 % preferences.

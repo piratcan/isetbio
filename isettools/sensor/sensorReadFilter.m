@@ -45,10 +45,10 @@ switch lower(filterType)
                 end
             end
         end
-        if checkfields(tmp,'spectrum')
+        if isfield(tmp, 'wave')
             sWave = sensorGet(ISA,'wave');
-            cWave = tmp.spectrum.wave;
-            if isequal(sWave,cWave)
+            cWave = tmp.wave;
+            if isequal(sWave, cWave)
                 if checkfields(tmp,'color'), ISA.color = tmp.color;
                 else warning('No color structure in file.');end
                 if checkfields(tmp,'cfa'), ISA.cfa = tmp.cfa;

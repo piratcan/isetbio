@@ -25,7 +25,7 @@ if notDefined('spectralType'), spectralType = 'ep'; end
 
 scene = sceneSet(scene,'name','gridlines');
 
-scene = initDefaultSpectrum(scene,'hyperspectral');
+scene = initDefaultSpectrum(scene, 'hyperspectral');
 wave = sceneGet(scene,'wave');
 nWave = sceneGet(scene,'nwave');
 

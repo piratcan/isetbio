@@ -1,4 +1,4 @@
-function macbethChartObject = macbethChartCreate(patchSize,patchList,spectrum)
+function macbethChartObject = macbethChartCreate(patchSize,patchList,wave)
 % Initiate a scene structure of the Gretag/Macbeth Color Chart reflectances
 %
 % macbethChartObject = ...
@@ -61,15 +61,15 @@ if notDefined('patchSize'), patchSize = 16;   end
 if notDefined('patchList'), patchList = 1:24; end
 
 %% Surface reflectance spectrum
-if notDefined('spectrum'), 
-    macbethChartObject = initDefaultSpectrum(macbethChartObject,'hyperspectral');
+if notDefined('wave'), 
+    macbethChartObject = initDefaultSpectrum(macbethChartObject, 'hyperspectral');
 else
-    macbethChartObject = sceneSet(macbethChartObject,'spectrum',spectrum);
+    macbethChartObject.wave = wave;
 end
 
 % Read wavelength information from the macbeth chart data
-wave =   sceneGet(macbethChartObject,'wave');
-nWaves = sceneGet(macbethChartObject,'nwave');
+wave =   sceneGet(macbethChartObject, 'wave');
+nWaves = sceneGet(macbethChartObject, 'nwave');
 
 % Read the MCC reflectance data
 fName = fullfile(isetRootPath,'data','surfaces','macbethChart.mat');

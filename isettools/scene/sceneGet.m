@@ -101,7 +101,6 @@ function val = sceneGet(scene,parm,varargin)
 %         % val = sceneGet(scene,'frequencyResolution',units);
 %
 %  Wavelength parameters
-%      {'spectrum'}
 %        {'binwidth'}   - bin width of wavelength integration
 %        {'wavelength'} - column vector of wavelength sample
 %        {'nwave'}      - number of wavelength samples
@@ -476,8 +475,6 @@ switch parm
         val = XW2RGBFormat(val,r,c);
         
         % Wavelength parameters
-    case {'spectrum','wavespectrum'}
-        if checkfields(scene,'spectrum'), val = scene.spectrum; end
     case 'binwidth'
         % This is the integration range for the wavelength steps.  Lights
         % can be at 400,410,420 ... with narrow (1 nm) or wide (50 nm)
@@ -488,9 +485,9 @@ switch parm
         end
     case {'wave','wavelength'}
         % Always a column vector, even if people stick it in the wrong way.
-        if checkfields(scene,'spectrum'), val = scene.spectrum.wave(:); end
+        if isfield(scene, 'wave'), val = scene.wave(:); end
     case {'nwave','nwaves'}
-        if checkfields(scene,'spectrum'), val = length(scene.spectrum.wave); end
+        if isfield(scene,'wave'), val = length(scene.wave); end
         
     case 'height'
         % Height in meters is default
@@ -643,7 +640,7 @@ switch parm
         % Check whether illuminant is spatial spectral or just an SPD
         % vector.
         
-        il = sceneGet(scene,'illuminant');
+        il = sceneGet(scene, 'illuminant');
         if isempty(il), disp('No scene illuminant.'); return;
         else            val = illuminantGet(il,'illuminant format');
         end

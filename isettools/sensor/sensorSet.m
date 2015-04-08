@@ -38,7 +38,6 @@ function sensor = sensorSet(sensor,param,val,varargin)
 %        {'filterspectra'}    - color filter transmissivities
 %        {'filternames'}      - color filter names
 %        {'infraredfilter'}   - IR filter transmissivity
-%      {'spectrum'}           - wavelength spectrum structure
 %        {'wavelength'}       - wavelength samples
 %      {'colorfilterarray'}   - color filter array structure
 %        {'pattern'}          - color filter array (cfa) pattern
@@ -253,8 +252,6 @@ switch lower(param)
         if length(val(:)) == nWave, val = val(:); end
         sensor.color.irFilter = val;
 
-    case {'spectrum'}
-        sensor.spectrum = val;
     case {'wavelength','wave','wavelengthsamples'}
         % sensorSet(sensor,'wave',wave) 
         % The pixel structure wave is, unfortunately, a mirror of the
@@ -265,7 +262,7 @@ switch lower(param)
         
         oldWave = sensorGet(sensor,'wave');
         newWave = val(:);
-        sensor.spectrum.wave = val(:);
+        sensor.wave = val(:);
         pixel  = sensorGet(sensor,'pixel');        % Adjust pixel wave
         pixel  = pixelSet(pixel,'wave',val(:));
         

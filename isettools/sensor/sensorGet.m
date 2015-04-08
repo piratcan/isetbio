@@ -108,7 +108,6 @@ function val = sensorGet(sensor,param,varargin)
 %        {'quantization method'}
 %
 % Sensor color filter array and related color properties
-%     {'spectrum'}    - structure about spectral information
 %       {'wave'}      - wavelength samples
 %       {'binwidth'}  - difference between wavelength samples
 %       {'nwave'}     - number of wavelength samples
@@ -616,10 +615,8 @@ switch param
         % an sensor, ... well I am not sure how to get the sensor if only
         % the pixel is passed in.  I am not sure how to enforce
         % consistency. -- BW
-    case {'spectrum','sensorspectrum'}
-        val = sensor.spectrum;
     case {'wave','wavelength'}
-        val = sensor.spectrum.wave(:);
+        if isfield(sensor, 'wave'), val = sensor.wave(:); end
     case {'binwidth','waveresolution','wavelengthresolution'}
         wave = sensorGet(sensor,'wave');
         if length(wave) > 1, val = wave(2) - wave(1);

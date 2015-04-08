@@ -18,7 +18,7 @@ function [oi,val] = oiCreate(oiType,val,optics,addObject,varargin)
 % create a default optical image with a diffraction-limited lens attached.
 %
 % The spectrum is not set in this call because it is normally inherited
-% from the scene.  To specify a spectrum for the optical image use
+% from the scene. To specify a spectrum for the optical image use
 %      oi = oiCreate('default');
 %      oi = initDefaultSpectrum('hyperspectral');
 %
@@ -114,27 +114,29 @@ switch oiType
         oi = wvf2oi(wvfP,'human');
         oi = oiSet(oi,'name',sprintf('Human WVF %.1f mm',pupilMM));
         
+    case {'mouse'}
         % We used to have this. We could again.  Leave it here for now
         % until we put it back in.
-        %     case {'mouse'}
-        %         % Similar to the human optics, but with different parameters.
-        %         oi = oiCreate('default');
-        %         oi = oiSet(oi,'diffuserMethod','skip');
-        %         oi = oiSet(oi,'consistency',1);
-        %         % get wavelengths from current scene
-        %         scene = vcGetObject('scene');
-        %         if isempty(scene)
-        %             wave = (325:5:635)';
-        %         else
-        %             spect = scene.spectrum.wave;
-        %             if isempty(spect)
-        %                 wave = (325:5:635)';
-        %             else
-        %                 wave = spect;
-        %             end
-        %         end
-        %         oi = oiSet(oi, 'wave',wave);
-        %         oi = oiSet(oi,'optics',opticsCreate('mouse'));
+        error('NYI');
+        
+        % % Similar to the human optics, but with different parameters.
+        % oi = oiCreate('default');
+        % oi = oiSet(oi,'diffuserMethod','skip');
+        % oi = oiSet(oi,'consistency',1);
+        % % get wavelengths from current scene
+        % scene = vcGetObject('scene');
+        % if isempty(scene)
+        %     wave = (325:5:635)';
+        % else
+        %     spect = sceneGet(scene, 'wave');
+        %     if isempty(spect)
+        %         wave = (325:5:635)';
+        %     else
+        %         wave = spect;
+        %     end
+        % end
+        % oi = oiSet(oi, 'wave',wave);
+        % oi = oiSet(oi,'optics',opticsCreate('mouse'));
         
     otherwise
         error('Unknown oiType');

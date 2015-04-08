@@ -22,9 +22,8 @@ dut = sensorCreate;
 dut = sensorSet(dut,'name','My Sensor');
 
 % Each object represents wavelength sampling of various elements (filters,
-% photodetector, so forth).  This information is stored in two the
-% 'spectrum' slot of the object. This slot lists the wavelength sample
-% values in nanometers
+% photodetector, so forth).  This information is stored in wave slot of the
+% object. This slot lists the wavelength sample values in nanometers
 %   
 wave = 400:10:700;
 dut = sensorSet(dut,'wave',wave);

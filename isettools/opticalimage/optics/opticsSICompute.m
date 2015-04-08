@@ -25,7 +25,7 @@ optics = oiGet(oi, 'optics');
 if isempty(opticsGet(optics, 'otfdata')), error('No psf data'); end
 
 % We use the custom data.
-optics = opticsSet(optics, 'spectrum', oiGet(oi,'spectrum'));
+optics = opticsSet(optics, 'wave', oiGet(oi, 'wave'));
 oi     = oiSet(oi, 'optics', optics);
 
 % Convert radiance units to optical image irradiance (photons/(s m^2 nm))

@@ -216,7 +216,7 @@ function [adaptedData, gainMap] = rgcMouseAdapt(volts,sensor,typeAdapt)
 
 if typeAdapt == 1
     % Absorption gain = 1/number of photons absorbed for equal wavelength illumination
-    %                 = 1/integral(filterSpectrum * transmittance)
+    %                 = 1/integral(filterSpectra * transmittance)
     % We divide by the mean luminance mLum.
     % Get parameters : wavelengths, spectra of cones/filters, transmittance
     % of lens

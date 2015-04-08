@@ -17,7 +17,7 @@ if isempty(fullName), return; end
 % These are the data fields that contain cfa information
 color    = sensorGet(ISA,'color');
 cfa      = sensorGet(ISA,'cfa');
-spectrum = sensorGet(ISA,'spectrum');
+wave     = sensorGet(ISA,'wave');
 
 % Make sure that the first letter of the filter names is lower case
 filterNames = color.filterNames;
@@ -28,6 +28,6 @@ color.filterNames = filterNames;
 
 
 % Save them all
-save fullName cfa color spectrum;
+save fullName cfa color wave;
 
 end

@@ -68,7 +68,8 @@ switch param
         pixel = pixelSet(pixel,'width',val(1));
         pixel = pixelSet(pixel,'height',val(2));
         disp('Fill factor may have changed');
-    case {'sizeconstantfillfactor','sizekeepfillfactor','sizesamefillfactor'}
+    case {'sizeconstantfillfactor', 'sizekeepfillfactor', ...
+          'sizesamefillfactor'}
         % pixelSet(pixel,'size ConstantFillFactor',newSize);
         % If newSize is a single number, we assume the user meant the
         % height and width were both this size.
@@ -112,25 +113,35 @@ switch param
     case {'voltageswing','saturationvoltage','maxvoltage'}      % Volts
         pixel.voltageSwing= val;
         
-    case {'darkvoltage','darkvoltageperpixel','voltspersecond'}  %V/sec/pixel
+    case {'darkvoltage','darkvoltageperpixel','voltspersecond'}
+        %dark voltage in V/sec/pixel
         pixel.darkVoltage = val;
         
-    case {'readnoise','readnoiseelectrons','readstandarddeviationelectrons'}         %standard deviation in e-
+    case {'readnoise','readnoiseelectrons','readstandarddeviationelectrons'}
+        %standard deviation in e-
         warndlg('Setting read noise with an electrons call.  Bad.')
         pixel.readNoise = val*pixelGet(pixel,'conversiongain');
         
-    case {'readnoisevolts','readstandarddeviationvolts','readnoisestdvolts'}         %standard deviation in V
+    case {'readnoisevolts','readstandarddeviationvolts','readnoisestdvolts'}
+        %standard deviation in V
         pixel.readNoise = val;
         
-    case {'readnoisemillivolts'}                    %standard deviation in V
+    case {'readnoisemillivolts'} %standard deviation in V
         pixel.readNoise = val*10^-3;
         
-    case 'spectrum'
-        pixel.spectrum = val;
-    case {'wave','wavelengthsamples'}         %nm
-        pixel.spectrum.wave = val(:);
+    case {'wave','wavelengthsamples'} 
+        % pixel wavelength samples in nm
+        % Interpolate spectral qe
+        spectralQE = pixelGet(pixel, 'spectral qe');
+        spectralQE = interp1(pixel.wave, spectralQE, val(:), 'linear');
+        pixel = pixelSet(pixel, 'spectral qe', spectralQE);
+        
+        pixel.wave = val(:);
     
-    case {'pixelspectralqe','pixelqe','spectralqe','pixelquantumefficiency','pdspectralqe','qe','photodetectorquantumefficiency','photodetectorspectralquantumefficiency'}
+    case {'pixelspectralqe', 'pixelqe', 'spectralqe', ...
+          'pixelquantumefficiency', 'pdspectralqe', 'qe', ...
+          'photodetectorquantumefficiency', ...
+          'photodetectorspectralquantumefficiency'}
         pixel.spectralQE = val;
         
     otherwise

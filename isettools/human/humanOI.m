@@ -24,18 +24,18 @@ optics = opticsSet(optics,'otfmethod','human');
 
 % Compute the basic parameters of the oi from the scene parameters.
 oi = oiSet(oi,'wangular',sceneGet(scene,'wangular'));
-oi = oiSet(oi,'spectrum',sceneGet(scene,'spectrum'));
+oi.wave = sceneGet(scene, 'wave');
 
-%  There really shouldn't be both.  Not sure what to do at this point.  If
+%  There really shouldn't be both. Not sure what to do at this point. If
 %  this is the only time we ever set the optics spectrum, then we have
-%  enforced the equality.  But just by having the variable, people can
-%  create an inconsistency.  Think.
-optics = opticsSet(optics,'spectrum',oiGet(oi,'spectrum'));
-oi = oiSet(oi,'optics',optics);
+%  enforced the equality. But just by having the variable, people can
+%  create an inconsistency.
+optics = opticsSet(optics, 'wave', oiGet(oi, 'wave'));
+oi = oiSet(oi, 'optics', optics);
 
 % Calculate the irradiance of the optical image in photons/(s m^2 nm)
 if showWaitbar, wBar = waitbar(0,'OI: Calculating irradiance...'); end
-oi = oiSet(oi,'cphotons',oiCalculateIrradiance(scene,optics));
+oi = oiSet(oi, 'photons', oiCalculateIrradiance(scene,optics));
 
 % Here, we need insert a distortion function, and a button on the window
 % that let us indicate that we want the distortion computed.  Which

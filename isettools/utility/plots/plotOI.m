@@ -854,7 +854,7 @@ switch lower(pType)
                 sz=opticsGet(optics,'otf size');
                 otf = zeros(sz(1),sz(2),nWave);
                 for ii=1:nWave
-                    otf(:,:,ii) = opticsGet(optics,'otfdata',wavelength(ii));
+                    otf(:,:,ii) = opticsGet(optics,'otf data',wavelength(ii));
                 end
             otherwise
                 error('LSWavelength1D not implemented for model: %s\n',opticsModel);
@@ -944,7 +944,7 @@ switch lower(pType)
                 error('OTF 1D plot not implemented for: %s\n',opticsModel);
         end
         
-        fx = fSupport(1,:,1);
+        fx = fSupport(:,1,1);
         otfWave = zeros(length(fx),nWave);
         for ii=1:nWave, otfWave(:,ii) = fftshift(otf(1,:,ii)); end
         

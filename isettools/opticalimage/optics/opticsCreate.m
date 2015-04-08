@@ -6,9 +6,6 @@ function optics = opticsCreate(opticsType,varargin)
 % The optics structure contains a variety of parameters,
 % such as f-number  and focal length.
 %
-% Optics structures do not contain a spectrum structure.  Rather this is
-% stored in the optical image that also holds the optics information.
-%
 % For diffraction-limited optics, the only parameter that matters really is
 % the f-number.  The names of the standard types end up producing a variety
 % of sizes that are only loosely connected to the names.

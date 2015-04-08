@@ -86,14 +86,15 @@ else
     sensor = sensorSet(sensor,'pixel',pixel);
 end
 
-% The sensor should always inherit the spectrum of the pixel.  Probably
-% there should only be one spectrum here, not one for pixel and sensor.
-sensor = sensorSet(sensor,'spectrum',pixelGet(pixel,'spectrum'));
+% The sensor should always inherit the spectrum of the pixel
+sensor.wave = pixelGet(pixel, 'wave');
 
 sensor = sensorSet(sensor,'data',[]);
 
-sensor = sensorSet(sensor,'sigmagainfpn',0);    % [V/A]  This is the slope of the transduction function
-sensor = sensorSet(sensor,'sigmaoffsetfpn',0);  % V      This is the offset from 0 volts after reset
+% This is the slope of the transduction function [V/A]
+sensor = sensorSet(sensor,'sigmagainfpn',0);
+% This is the offset from 0 volts after reset [V]
+sensor = sensorSet(sensor,'sigmaoffsetfpn',0);  
 
 % I wonder if the default spectrum should be hyperspectral, or perhaps it
 % should be inherited from the currently selected optical image?
@@ -206,7 +207,7 @@ switch sensorName
 
         % Assign key fields
         if isfield(params,'wave'), wave = params.wave;
-        else wave = 400:10:700;
+        else wave = (400:10:700)';
         end
         
         % Add the default human pixel with StockmanQuanta filters.
@@ -299,7 +300,7 @@ return;
 %    if isempty(scene)
 %        getOi = 1;
 %    else
-%        spect = scene.spectrum.wave;
+%        spect = scene.wave;
 %        if isempty(spect),  getOi = 1;
 %        else
 %            mouseWave = spect;
@@ -309,7 +310,7 @@ return;
 %    if getOi
 %       oi = vcGetObject('oi');
 %       if isempty(oi), mouseWave = 325:5:635;
-%       else spect = oi.optics.spectrum.wave;
+%       else spect = oi.optics.wave;
 %          if isempty(spect),  mouseWave = 325:5:635;
 %          else                mouseWave = spect;
 %          end

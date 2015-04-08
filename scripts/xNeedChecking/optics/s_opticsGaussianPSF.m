@@ -25,7 +25,7 @@ vcAddAndSelectObject('scene',scene); sceneWindow;
 % Create optical image
 %
 oi = oiCreate;
-oi = oiSet(oi,'spectrum',sceneGet(scene,'spectrum'));
+oi = oiSet(oi,'wave',sceneGet(scene,'wave'));
 
 % Calculate Gaussian PSF
 %

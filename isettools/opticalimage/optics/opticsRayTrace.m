@@ -31,11 +31,9 @@ if isempty(opticsGet(optics,'rayTrace'))
 end
 % Ray trace data are available.  Carry on.
 
-% The oi and optics must both have the scene spectrum.  It is annoying that
+% The oi and optics must both have the scene spectrum. It is annoying that
 % there is both an optics and an oi spectrum.  Sigh.
-oi     = oiSet(oi,'spectrum',sceneGet(scene,'spectrum'));
-optics = opticsSet(optics,'spectrum',oiGet(oi,'spectrum'));
-oi     = oiSet(oi,'optics',optics);
+oi = oiSet(oi, 'wave', sceneGet(scene, 'wave'));
 
 % I am not sure why we calculate this here, and we why aren't accounting
 % for the padding.

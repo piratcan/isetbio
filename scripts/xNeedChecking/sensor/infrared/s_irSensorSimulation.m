@@ -18,16 +18,16 @@
 % We will operate in the the visible + NIR regime. Note that the wavelength
 % support for Option 4 ('Choose a scene') will come from the multispectral
 % scene.
-spectrum.wave = (400:10:1000)';
+wave = (400:10:1000)';
 scene_type_index = 1;
 switch scene_type_index
     case 1 % MCC
         patchSize = 8;
-        scene = sceneCreate('macbethEE_IR',patchSize,spectrum);
+        scene = sceneCreate('macbethEE_IR',patchSize,wave);
     case 2 % ISO 12233
-        scene = sceneCreate('slantedBar',512,7/3,spectrum.wave);
+        scene = sceneCreate('slantedBar',512,7/3, wave);
     case 3 % ISO 12233
-        scene = sceneCreate('ringsrays',8,256,spectrum.wave);
+        scene = sceneCreate('ringsrays',8,256, wave);
     case 4 % Multispectral scene
         % Location of scene (directory and filename).
         %         scene_dir   = '';

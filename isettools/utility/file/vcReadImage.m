@@ -338,11 +338,11 @@ switch lower(imageType)
         illuminant = illuminantModernize(illuminant);
         
         % Resample the illuminant to the specified wavelength list
-        if ~isempty(varargin)&& ~isempty(varargin{1})
+        if ~isempty(varargin) && ~isempty(varargin{1})
             % Resample the illuminant wavelength to the new wave in the
             % call to this function.  This interpolates the illuminant
             % data, as well.
-            illuminant = illuminantSet(illuminant,'wave',newWave(:));
+            illuminant = illuminantSet(illuminant, 'wave', newWave(:));
         end
         
     otherwise
